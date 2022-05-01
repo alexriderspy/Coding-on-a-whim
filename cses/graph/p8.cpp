@@ -1,4 +1,4 @@
-//dijsktra
+//dijsktra shortest distance from one source to all vertices
 
 #include<iostream>
 #include<queue>
