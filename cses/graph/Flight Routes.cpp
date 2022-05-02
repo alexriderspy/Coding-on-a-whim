@@ -1,4 +1,4 @@
-//k dijkstra
+//k dijkstra - compare 
 
 #include<iostream>
 #include <queue>
@@ -16,10 +16,6 @@ using namespace std;
 
 const int oo = 1LL<<62;
 
-struct node{
-    int u,v,w;
-};
-
 signed main(){
     int n,m,k;cin>>n>>m>>k;
     vector<pii>edges[n];
@@ -31,25 +27,30 @@ signed main(){
     }
     
     priority_queue<pii>pq;
+
+    pq.push({0,0});
+    vector<vector<int>>dist(n,vector<int>(k,oo));
+    dist[0][0]=0;
     
-    for(int i=0;i<k;++i){
-        vector<int>dist(n,oo);
-        dist[0]=0;
-        vector<int>par(n,0);
-        pq.push({0,0});
-        while(!pq.empty()){
-            pii curr = pq.top();
-            pq.pop();
-            if(dist[curr.second]!=-curr.first) continue;
-            for(auto v:edges[curr.second]){
-                if(dist[curr.second]+v.second < dist[v.first]){
-                    dist[v.first] = dist[curr.second] + v.second;
-                    pq.push({-dist[v.first],v.first});
-                    par[v.first] = curr.second;
-                }
+    //we keep worst shortest path at the end and update it nd then sort it
+
+    while(!pq.empty()){
+        pii curr = pq.top();
+        pq.pop();
+        int v = curr.second;
+        int d = -curr.first;
+        if(dist[v][k-1] < d) continue;
+        for(pii e:edges[v]){
+            int vertex = e.first;
+            int dis = e.second;
+            if(d + dis < dist[vertex][k-1]){
+                dist[vertex][k-1] = d+dis;
+                pq.push({-d-dis,vertex});
+                sort(dist[vertex].begin(),dist[vertex].end());
             }
+            
         }
-        cout<<dist[n-1]<<' ';
     }
+    for(int i=0;i<k;++i) cout<<dist[n-1][i]<<' ';
     cout<<'\n';
 }
