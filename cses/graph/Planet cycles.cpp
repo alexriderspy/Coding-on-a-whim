@@ -5,7 +5,7 @@ functional graphs are those that have a cycle at its core and all are trees that
 using namespace std;
 
 int main(){
-	int n,q;cin>>n>>q;
+	int n;cin>>n;
 	vector<int>next(n);
 	vector<vector<int>>before(n);
 	for(int i=0;i<n;++i){
@@ -79,41 +79,9 @@ int main(){
 		return pos;
 	};
 
-
-	while(q--){
-		int a,b;cin>>a>>b;
-		--a,--b;
-		if(cycle_id[down[log2][a]]!=cycle_id[down[log2][b]]){
-			cout<<-1<<'\n';
-			continue;
-		}
-		if(cycle_id[a]!=-1 || cycle_id[b]!=-1){
-			if(cycle_id[b]==-1){
-				cout<<-1<<'\n'; continue;
-			}
-			int dist=cyc_dist[a];
-			int u_cyc = advance(a,dist);
-			map<int,int>&mp = cycles[cycle_id[u_cyc]];
-			int u_index = mp[u_cyc];
-			int v_index = mp[b];
-
-			if(u_index<=v_index){
-				cout<<v_index-u_index + dist<<'\n';
-			}else{
-				cout<<mp.size()-(u_index-v_index) + dist<<'\n';
-			}
-
-		}else{
-			if(cyc_dist[a]<cyc_dist[b]){
-				cout<<-1<<'\n';
-			}else{
-				int diff = cyc_dist[a]-cyc_dist[b];
-				if(advance(a,diff) == b){
-					cout<<diff<<'\n';
-				}else{
-					cout<<-1<<'\n';
-				}
-			}
-		}
-	}
+    for(int i=0;i<n;++i){
+        int u_cyc = advance(i,cyc_dist[i]);
+        cout<<cyc_dist[i]+cycles[cycle_id[u_cyc]].size()<<' ';
+    }
+    cout<<'\n';
 }
