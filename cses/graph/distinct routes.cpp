@@ -1,4 +1,5 @@
-//dinic's algorithm - O(V^2 x E)
+//edge disjoint paths
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -31,7 +32,9 @@ bool bfs(){
 }
 
 int send_flow(int u,int flow){
-    if(u==sink) return flow;
+    if(u==sink) {
+        return flow;
+    }
     if(c[u]==n){
         return 0;
     }
@@ -52,43 +55,69 @@ int send_flow(int u,int flow){
     return 0;
 }
 
+map<pair<int,int>,int>mp;
+vector<vector<int>>ans;
+
+void dfs(int u,vector<int>path,int &f){
+    path.push_back(u);
+
+    if(u==sink){
+        f=1;
+        ans.push_back(path);
+        return;
+    }
+    for(int v=0;v<n;++v){
+        if(edges[u][v]>0 && residualG[v][u]>0){
+            if(mp[{u,v}]==0){
+                mp[{u,v}]++;
+                dfs(v,path,f);
+                if(f==1) {
+                    if(u!=source){
+                        path.clear();
+                        return;
+                    }
+                    else f=0;
+                }
+            }
+        }
+    }
+    path.pop_back();
+}
+
 signed main(){
-    //there might be repeated edges, add their speeds
-    int a,b,m;cin>>a>>b>>m;
-    n=a+b+2;
+    
+    int m;cin>>n>>m;
+    
     edges=vector<vector<int>>(n,vector<int>(n,0));
     for(int i=0;i<m;++i){
         int u,v;cin>>u>>v;
         --u,--v;
-        v+=a;
         edges[u][v]=1;
     }
     
-    for(int i=0;i<a;++i) edges[a+b][i]=1;
-    for(int i=a;i<a+b;++i) edges[i][a+b+1]=1;
-    
-    source=a+b;
-    sink=a+b+1;
+    source=0;
+    sink=n-1;
     residualG=edges;
     
     int max_flow=0;
+    
+
     while(bfs()){
         c.assign(n,0);
         while(int flow = send_flow(source,(long long)1e60)){
             max_flow+=flow;
         }
     }
-
-    vector<pair<int,int>>ans;
-    for(int i=a;i<a+b;++i){
-        for(int j=0;j<a;++j){
-            if(residualG[i][j]==1){
-                ans.push_back({j,i-a});
-            }
-        }
-    }
+    vector<int>path;
+    int f=0;
+    dfs(source,path,f);
     cout<<max_flow<<'\n';
-    for(int i=0;i<ans.size();++i){
-        cout<<ans[i].first+1<<" "<<ans[i].second+1<<'\n';
+
+    for(int i=0;i<(int)ans.size();++i){
+        cout<<ans[i].size()<<'\n';
+        for(int j=0;j<ans[i].size();++j){
+            cout<<ans[i][j]+1<<' ';
+        }
+        cout<<'\n';
     }
 }

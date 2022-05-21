@@ -69,7 +69,7 @@ signed main(){
     int max_flow=0;
     while(bfs()){
         c.assign(n,0);
-        while(int flow = send_flow(0,(long long)1e60)){
+        while(int flow = send_flow(source,(long long)1e60)){
             max_flow+=flow;
         }
     }

@@ -90,6 +90,13 @@ int dinic_algorithm(vector<vector<int>>& graph, int source, int sink)
         while (int flow = sendFlow(residualGraph, level, count, source, sink, INT_MAX))
             max_flow += flow;
     }
+    cout<<"Residual Graph\n";
+    for(int i=0;i<V;++i){
+        for(int j=0;j<V;++j){
+            cout<<residualGraph[i][j]<<' ';
+        }
+        cout<<'\n';
+    }
     return max_flow;
 }
 
@@ -113,6 +120,7 @@ int main()
     addEdge(graph, 4, 3, 6);
     addEdge(graph, 4, 5, 10);
 
-    cout << "Maximum flow: " << dinic_algorithm(graph, 0, 5);
+    cout << dinic_algorithm(graph, 0, 5);
+
     return 0;
 }
