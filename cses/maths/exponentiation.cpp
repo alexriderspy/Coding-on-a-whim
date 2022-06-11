@@ -5,8 +5,6 @@ using namespace std;
 
 const int mod = 1e9+7;
 
-vector<int>powers;
-
 int binexp(int a,int b){
     int res=1;
     while(b>0){
