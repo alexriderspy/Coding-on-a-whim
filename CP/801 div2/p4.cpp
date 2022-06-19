@@ -4,15 +4,8 @@ using namespace std;
 #define int long long
 
 void solve(){
-    int m=0,z=0,o=0;cin>>z>>o;
-    string a="";
-    for(int i=z+o-1;i>=0;){
-        if(z)
-            a+='0',--z,--i;
-        if(o)
-            a+='1',--o,--i;
-    }
-    cout<<a<<'\n';
+    int n;cin>>n;
+        
 }
 
 signed main(){
