@@ -3,18 +3,13 @@ using namespace std;
 
 #define int long long
 
-const int N = 2005;
-vector<int>edges[N];
-
 void solve(){
     int n;cin>>n;
-    for(int i=0;i<n-1;++i){
-        int u,v;cin>>u>>v;
-        --u,--v;
-        edges[u].push_back(v);
-        edges[v].push_back(u);
-    }
-        
+    vector<int>a(n);
+    for(int i=0;i<n;++i) cin>>a[i];
+    reverse(a.begin(),a.end());
+    for(int i=0;i<n;++i) cout<<a[i]<<' ';
+    cout<<'\n';
 }
 
 signed main(){

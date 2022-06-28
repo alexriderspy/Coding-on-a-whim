@@ -10,7 +10,13 @@ void solve(){
     int q;cin>>q;
     while(q--){
         cin>>t;
-        
+        int over=0,ans=0;
+        for(int i=0;i<n;++i){
+            if(t<(a[i]-over)){
+                cout<<-1<<'\n';break;
+            }
+            over = t-a[i]-over;            
+        }        
     }
 }
 
